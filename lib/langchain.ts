@@ -127,13 +127,21 @@ async function fetchMessagesFromDatabase(docId: string) {
 }
 
 async function generateLangChainCompletion(docId: string, question: string) {
+  console.log('generateLangChainCompletion started');
+
   let pineconeVectorStore;
 
+  console.log('Calling generateEmbeddingsInPineconeVectorStore');
   pineconeVectorStore = await generateEmbeddingsInPineconeVectorStore(docId);
   if (!pineconeVectorStore) throw new Error('Pinecone vector store not found');
+  console.log('Pinecone vector store obtained');
 
   const retriever = pineconeVectorStore.asRetriever();
+  console.log('Retriever created');
+
+  console.log('Fetching chat history from database');
   const chatHistory = await fetchMessagesFromDatabase(docId);
+  console.log('Chat history fetched:', chatHistory.length, 'messages');
 
   const historyAwarePrompt = ChatPromptTemplate.fromMessages([
     ...chatHistory,
@@ -143,12 +151,14 @@ async function generateLangChainCompletion(docId: string, question: string) {
       'Given the above conversation, generate a search query to look up in order to get information relevant to the conversation.',
     ],
   ]);
+  console.log('History aware prompt created');
 
   const historyAwareRetrieverChain = await createHistoryAwareRetriever({
     llm: model,
     retriever,
     rephrasePrompt: historyAwarePrompt,
   });
+  console.log('History aware retriever chain created');
 
   const historyAwareRetrievalPrompt = ChatPromptTemplate.fromMessages([
     [
@@ -158,23 +168,29 @@ async function generateLangChainCompletion(docId: string, question: string) {
     ...chatHistory,
     ['user', '{input}'],
   ]);
+  console.log('History aware retrieval prompt created');
 
   const historyAwareCombineDocsChain = await createStuffDocumentsChain({
     llm: model,
     prompt: historyAwareRetrievalPrompt,
   });
+  console.log('History aware combine docs chain created');
 
   const conversationalRetrievalChain = await createRetrievalChain({
     retriever: historyAwareRetrieverChain,
     combineDocsChain: historyAwareCombineDocsChain,
   });
+  console.log('Conversational retrieval chain created');
 
+  console.log('Invoking conversational retrieval chain');
   const reply = await conversationalRetrievalChain.invoke({
     chat_history: chatHistory,
     input: question,
   });
+  console.log('Conversational retrieval chain invoked');
 
+  console.log('generateLangChainCompletion completed');
   return reply.answer;
 }
 
-export { model, generateLangChainCompletion };
+export {model, generateLangChainCompletion}
