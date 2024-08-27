@@ -9,9 +9,6 @@ const FREE_LIMIT = 3;
 const PRO_LIMIT = 100;
 
 export async function askQuestion(id: string, question: string) {
-  console.log('Starting askQuestion function');
-  const startTime = Date.now();
-
   auth().protect();
   const { userId } = await auth();
 
@@ -33,22 +30,39 @@ export async function askQuestion(id: string, question: string) {
     createdAt: new Date(),
   };
 
-  // Add user message and generate AI reply in parallel
-  const addUserMessagePromise = chatRef.add(userMessage);
-  const generateReplyPromise = generateLangChainCompletion(id, question);
+  await chatRef.add(userMessage);
 
-  const [_, reply] = await Promise.all([addUserMessagePromise, generateReplyPromise]);
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('Function timed out')), 15000)
+  );
 
-  const aiMessage: Message = {
-    role: 'ai',
-    message: reply,
-    createdAt: new Date(),
-  };
+  try {
+    const reply = await Promise.race([
+      generateLangChainCompletion(id, question),
+      timeoutPromise,
+    ]);
 
-  await chatRef.add(aiMessage);
+    const aiMessage: Message = {
+      role: 'ai',
+      message: reply as string,
+      createdAt: new Date(),
+    };
 
-  const endTime = Date.now();
-  console.log(`askQuestion function took ${endTime - startTime}ms`);
+    await chatRef.add(aiMessage);
 
-  return { success: true, message: null };
+    return { success: true, message: null };
+  } catch (error) {
+    console.error('Error in askQuestion function:', error);
+
+    const errorMessage: Message = {
+      role: 'ai',
+      message:
+        'Sorry, the server took too long to respond. Please try again later.',
+      createdAt: new Date(),
+    };
+
+    await chatRef.add(errorMessage);
+
+    return { success: false, message: errorMessage.message };
+  }
 }
