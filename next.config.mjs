@@ -1,8 +1,22 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  webpack: (config) => {
+    config.resolve.alias.canvas = false;
+
+    return config;
+  },
   reactStrictMode: true,
   images: {
-    domains: ['i.imgur.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.imgur.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.clerk.com',
+      },
+    ],
   },
 };
 
