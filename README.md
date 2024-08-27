@@ -32,8 +32,8 @@ Check out a live demo of Chat With PDF [here](https://chat-with-pdf-mocha-gamma.
 - **Backend**: Node.js, Express
 - **Database**: Firestore (Firebase)
 - **Storage**: Firebase Storage
-- **Authentication**: Firebase Authentication
-- **AI Integration**: OpenAI GPT-4 (or relevant NLP API)
+- **Authentication**: Clerk authentication
+- **AI Integration**: OpenAI GPT-4 (or relevant NLP API), Pinecone for AI embeddings
 
 ## Future Improvements
 - **Server-side enhancements**: Currently, there are some bugs with the chatbot taking too long and timing out. Further research is needed to pinpoint the source of the timeout.
