@@ -9,6 +9,9 @@ const FREE_LIMIT = 3;
 const PRO_LIMIT = 100;
 
 export async function askQuestion(id: string, question: string) {
+  console.log('Starting askQuestion function');
+  const startTime = Date.now();
+
   auth().protect();
   const { userId } = await auth();
 
@@ -30,9 +33,11 @@ export async function askQuestion(id: string, question: string) {
     createdAt: new Date(),
   };
 
-  await chatRef.add(userMessage);
+  // Add user message and generate AI reply in parallel
+  const addUserMessagePromise = chatRef.add(userMessage);
+  const generateReplyPromise = generateLangChainCompletion(id, question);
 
-  const reply = await generateLangChainCompletion(id, question);
+  const [_, reply] = await Promise.all([addUserMessagePromise, generateReplyPromise]);
 
   const aiMessage: Message = {
     role: 'ai',
@@ -41,6 +46,9 @@ export async function askQuestion(id: string, question: string) {
   };
 
   await chatRef.add(aiMessage);
+
+  const endTime = Date.now();
+  console.log(`askQuestion function took ${endTime - startTime}ms`);
 
   return { success: true, message: null };
 }
