@@ -2,6 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 import byteSize from 'byte-size';
+import useSubscription from '@/hooks/useSubscription';
+import { useTransition } from 'react';
+import { DownloadCloud, Trash2Icon, TrashIcon } from 'lucide-react';
+import { Button } from './ui/button';
+import { deleteDocument } from '@/actions/deleteDocument';
 
 const Document = ({
   id,
@@ -15,6 +20,8 @@ const Document = ({
   downloadUrl: string;
 }) => {
   const router = useRouter();
+  const [isDeleting, startTransition] = useTransition();
+  const { hasActiveMembership } = useSubscription();
 
   return (
     <div
@@ -31,6 +38,34 @@ const Document = ({
         <p className='text-sm text-gray-500 group-hover:text-customPurple100'>
           {byteSize(size).value} KB
         </p>
+      </div>
+
+      {/* actions */}
+      <div className='flex space-x-2 justify-end'>
+        <Button
+          variant='outline'
+          disabled={isDeleting || !hasActiveMembership}
+          onClick={() => {
+            const prompt = window.confirm(
+              'Are you sure you want to delete this document?'
+            );
+            if (prompt)
+              startTransition(async () => {
+                await deleteDocument(id);
+              });
+          }}
+        >
+          <Trash2Icon className='h-6 w-6 text-red-500' />
+          {!hasActiveMembership && (
+            <span className='text-red-500 ml-2'>PRO Feature</span>
+          )}
+        </Button>
+
+        <Button variant='outline' asChild>
+          <a href={downloadUrl} download>
+            <DownloadCloud className='h-6 w-6 text-customPurple' />
+          </a>
+        </Button>
       </div>
     </div>
   );
