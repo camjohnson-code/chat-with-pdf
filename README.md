@@ -28,14 +28,16 @@ Check out a live demo of Chat With PDF [here](https://www.chatwithpdf.dev/).
 - **Manage Documents**: Access and manage your uploaded documents from your account dashboard.
 
 ## Technologies Used
-- **Frontend**: React, Redux, Tailwind CSS, Framer Motion
-- **Backend**: Node.js, Express
+- **Frontend**: React, Next.js, Tailwind CSS, DaisyUI, ShadCN
+- **Backend**: Serverless architecture using Next.js API routes on Vercel
 - **Database**: Firestore (Firebase)
 - **Storage**: Firebase Storage
 - **Authentication**: Clerk authentication
-- **AI Integration**: OpenAI GPT-4 (or relevant NLP API), Pinecone for AI embeddings
+- **AI Integration**: OpenAI GPT-4 for NLP, Pinecone for vector embeddings
+- **Payments**: Stripe for subscription management
+- **TypeScript**: Used throughout the stack for type safety
 
 ## Future Improvements
 - **Server-side enhancements**: Currently, there are some bugs with the chatbot taking too long and timing out. The source of the bug is known, but further debugging is needed to improve efficiencies.
 - **File Controls**: Giving users the ability to upload additional file types is a high-priority issue.
-- **Further AI Enhancements**: Giving users the ability to upload additional file types is a high-priority issue.
+- **Further AI Enhancements**: Eventually, I'd love to build out additional tools under this SAAS umbrella. One on my mind is an AI image enhancer for enhancing and colorizing old photos.
