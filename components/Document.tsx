@@ -3,10 +3,21 @@
 import { useRouter } from 'next/navigation';
 import byteSize from 'byte-size';
 import useSubscription from '@/hooks/useSubscription';
-import { useTransition } from 'react';
-import { DownloadCloud, Trash2Icon, TrashIcon } from 'lucide-react';
+import { useTransition, useState } from 'react';
+import { DownloadCloud, Trash2Icon } from 'lucide-react';
 import { Button } from './ui/button';
 import { deleteDocument } from '@/actions/deleteDocument';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 const Document = ({
   id,
@@ -22,6 +33,13 @@ const Document = ({
   const router = useRouter();
   const [isDeleting, startTransition] = useTransition();
   const { hasActiveMembership } = useSubscription();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleDelete = () => {
+    startTransition(async () => {
+      await deleteDocument(id);
+    });
+  };
 
   return (
     <div
@@ -42,24 +60,33 @@ const Document = ({
 
       {/* actions */}
       <div className='flex space-x-2 justify-end'>
-        <Button
-          variant='outline'
-          disabled={isDeleting || !hasActiveMembership}
-          onClick={() => {
-            const prompt = window.confirm(
-              'Are you sure you want to delete this document?'
-            );
-            if (prompt)
-              startTransition(async () => {
-                await deleteDocument(id);
-              });
-          }}
-        >
-          <Trash2Icon className='h-6 w-6 text-red-500' />
-          {!hasActiveMembership && (
-            <span className='text-red-500 ml-2'>PRO Feature</span>
-          )}
-        </Button>
+        <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <AlertDialogTrigger asChild>
+            <Button
+              variant='outline'
+              disabled={isDeleting || !hasActiveMembership}
+            >
+              <Trash2Icon className='h-6 w-6 text-red-500' />
+              {!hasActiveMembership && (
+                <span className='text-red-500 ml-2'>PRO Feature</span>
+              )}
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
+              <AlertDialogDescription>
+                Are you sure you want to delete this document?
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleDelete}>
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
 
         <Button variant='outline' asChild>
           <a href={downloadUrl} download>
