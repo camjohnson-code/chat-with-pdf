@@ -23,13 +23,10 @@ const ChatToFilePage = async ({
     const url = ref.data()?.downloadUrl;
 
   return <div className='grid lg:grid-cols-5 h-full overflow-hidden'>
-    {/* right section */}
     <div className='col-span-5 lg:col-span-2 overflow-y-auto'>
-      {/* chat */}
       <Chat id={id} />
     </div>
 
-    {/* left */}
     <div className='col-span-5 lg:col-span-3 bg-gray-100 border-r-2 lg:border-customPurple lg:-order-1 overflow-auto'>
       <PDFView url={url} />
     </div>
