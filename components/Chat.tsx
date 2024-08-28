@@ -137,7 +137,8 @@ const Chat = ({ id }: { id: string }) => {
 
       <form
         onSubmit={handleSubmit}
-        className='flex sticky bottom-0 space-x-2 p-5 bg-customPurple300'
+        className='flex sticky bottom-0 space-x-2 p-5' 
+        style={{ backgroundColor: 'rgba(123, 97, 255, 0.8)' }}
       >
         <Input
           placeholder='Ask a question...'
