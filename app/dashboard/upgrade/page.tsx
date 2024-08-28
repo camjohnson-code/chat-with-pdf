@@ -56,9 +56,9 @@ const PricingPage = () => {
             Supercharge Your Document Companion
           </p>
           <p className='mx-auto mt-6 max-w-2xl px-10 text-center text-lg leading-8 text-gray-600'>
-            Choose an affordable plan that's packed with the best features for
-            interacting with yourPDFs, enhancing productivity, and streamlining
-            your workflow.
+            Choose an affordable plan that&apos;s packed with the best features
+            for interacting with your PDFs, enhancing productivity, and
+            streamlining your workflow.
           </p>
 
           <div className='max-w-md mx-auto mt-10 grid grid-cols-1 md:grid-cols-2 md:max-w-2xl gap-8 lg:max-w-4xl text-left'>
