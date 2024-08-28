@@ -183,14 +183,21 @@ async function generateLangChainCompletion(docId: string, question: string) {
   console.log('Conversational retrieval chain created');
 
   console.log('Invoking conversational retrieval chain');
-  const reply = await conversationalRetrievalChain.invoke({
-    chat_history: chatHistory,
-    input: question,
-  });
-  console.log('Conversational retrieval chain invoked');
-
-  console.log('generateLangChainCompletion completed');
-  return reply.answer;
+  try {
+    const reply = await conversationalRetrievalChain.invoke({
+      chat_history: chatHistory,
+      input: question,
+    });
+    console.log('Conversational retrieval chain invoked');
+    console.log('generateLangChainCompletion completed');
+    return reply.answer;
+  } catch (error) {
+    console.error(
+      'Error during conversational retrieval chain invocation:',
+      error
+    );
+    throw error;
+  }
 }
 
-export {model, generateLangChainCompletion}
+export { model, generateLangChainCompletion };

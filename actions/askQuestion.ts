@@ -51,7 +51,7 @@ export async function askQuestion(id: string, question: string) {
   await chatRef.add(userMessage);
 
   const timeoutPromise = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error('Function timed out')), 15000)
+    setTimeout(() => reject(new Error('Function timed out')), 29000)
   );
 
   try {
