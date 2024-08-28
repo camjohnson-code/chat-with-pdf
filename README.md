@@ -1,6 +1,6 @@
 # Chat With PDF
 
-![Chat With PDF](https://chat-with-pdf-mocha-gamma.vercel.app/_next/image?url=https%3A%2F%2Fi.imgur.com%2FVciRSTI.jpeg&w=3840&q=75)
+![Chat With PDF](https://www.chatwithpdf.dev/_next/image?url=https%3A%2F%2Fi.imgur.com%2FrZHmWT0.jpeg&w=3840&q=75)
 
 **Chat With PDF** is an AI-powered web application that allows users to upload PDF documents to their account and interact with an AI chatbot to ask questions about the content of the PDF. Whether you need to extract specific information, summarize sections, or understand complex documents, Chat With PDF makes it easy to get answers quickly.
 
@@ -19,7 +19,7 @@
 - **Data Privacy**: All uploaded documents are stored securely with strict access control.
 
 ## Demo
-Check out a live demo of Chat With PDF [here](https://chat-with-pdf-mocha-gamma.vercel.app/).
+Check out a live demo of Chat With PDF [here](https://www.chatwithpdf.dev/).
 
 ## Usage
 - **Sign Up / Log In**: Create an account or log in to your existing account.
@@ -36,5 +36,6 @@ Check out a live demo of Chat With PDF [here](https://chat-with-pdf-mocha-gamma.
 - **AI Integration**: OpenAI GPT-4 (or relevant NLP API), Pinecone for AI embeddings
 
 ## Future Improvements
-- **Server-side enhancements**: Currently, there are some bugs with the chatbot taking too long and timing out. Further research is needed to pinpoint the source of the timeout.
-- **File Controls**: Giving users the chance to download and delete files from the dashboard is a high-priority issue.
+- **Server-side enhancements**: Currently, there are some bugs with the chatbot taking too long and timing out. The source of the bug is known, but further debugging is needed to improve efficiencies.
+- **File Controls**: Giving users the ability to upload additional file types is a high-priority issue.
+- **Further AI Enhancements**: Giving users the ability to upload additional file types is a high-priority issue.
