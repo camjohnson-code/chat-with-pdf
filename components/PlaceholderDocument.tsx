@@ -1,14 +1,17 @@
 'use client';
 
-import { PlusCircleIcon } from 'lucide-react';
+import { FrownIcon, PlusCircleIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
+import useSubscription from '@/hooks/useSubscription';
 
 const PlaceholderDocument = () => {
   const router = useRouter();
+  const { isOverFileLimit } = useSubscription();
 
   const handleClick = () => {
-    router.push('/dashboard/upload');
+    if (isOverFileLimit) router.push('/dashboard/upgrade');
+    else router.push('/dashboard/upload');
   };
 
   return (
@@ -16,8 +19,15 @@ const PlaceholderDocument = () => {
       onClick={handleClick}
       className='flex flex-col items-center justify-center w-64 h-80 rounded-xl bg-gray-200 drop-shadow-md text-gray-400'
     >
-      <PlusCircleIcon className='h-12 w-12 mb-2' />
-      <p>Add a document</p>
+      {isOverFileLimit ? (
+        <FrownIcon className='h-16 w-16' />
+      ) : (
+        <PlusCircleIcon className='h-12 w-12 mb-2' />
+      )}
+
+      <p>
+        {isOverFileLimit ? 'Upgrade to add more documents' : 'Add a document'}
+      </p>
     </Button>
   );
 };
