@@ -1,8 +1,42 @@
 import { Button } from '@/components/ui/button';
+import { GlobeIcon, ZapIcon, VaultIcon, EyeIcon, BrainCogIcon, MonitorSmartphoneIcon   } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Home() {
+  const features = [
+    {
+      icon: GlobeIcon,
+      description:
+        'Keep all of your important PDF files securely stored ane easily accessible anytime, anywhere.',
+    },
+    {
+      icon: ZapIcon,
+      description:
+        'Experience lightning-fast answers to your queries, ensuring you get the information you need instantly.',
+    },
+    {
+      icon: BrainCogIcon,
+      description:
+        'Our intelligent chatbot remembers previous interactions, providing a seamless and personalized experience.',
+    },
+    {
+      icon: EyeIcon,
+      description:
+        'Engage with your PDFs like never before using our intuitive and interactive viewer.',
+    },
+    {
+      icon: VaultIcon,
+      description:
+        'Rest assured knowing your documents are safely backed up on the cloud, protected from loss or damage.',
+    },
+    {
+      icon: MonitorSmartphoneIcon,
+      description:
+        "Access and chat with your PDFs seamlessly on any device, whether it's your desktop, tablet or smartphone.",
+    },
+  ];
+
   return (
     <main className='flex-1 overflow-scroll p-2 lg:p-5 bg-gradient-to-bl from-customPurple to-customPink'>
       <div className='bg-white py-24 sm:py-32 rounded-md drop-shadow-xl'>
@@ -39,7 +73,7 @@ export default function Home() {
           <div className='mx-auto max-w-7xl px-6 lg:px-8'>
             <Image
               alt='App screenshot'
-              src='https://i.imgur.com/VciRSTI.jpeg'
+              src='https://i.imgur.com/rZHmWT0.jpeg'
               width={2432}
               height={1442}
               className='mb-[-0%] rounded-xl shadow-2xl ring-1 ring-gray-900/10'
@@ -50,19 +84,21 @@ export default function Home() {
           </div>
         </div>
 
-        {/* <div className='mx-auto mt-16 max-w-7xl px-6 sm:mt-20 md:mt-24 lg:px-8'>
-          <dl className='mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-10 text-base leading-7 text-gray-600 sm:grid-cold-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:fap-x-8 lg:gap-y-16'>
-            {features.map(feature => {
-              <div className='relative pl-9'>
+        <div className='mx-auto mt-16 max-w-7xl px-6 sm:mt-20 md:mt-24 lg:px-8'>
+          <dl className='mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-10 text-base leading-7 text-gray-600 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-x-8 lg:gap-y-16'>
+            {features.map((feature, index) => (
+              <div key={index} className='relative pl-9'>
                 <dt className='inline font-semibold text-gray-900'>
-                  <feature.icon aria-hidden='true' className='absolute left-1 top-1 h-5 w-5 text-customPurple' />
+                  <feature.icon
+                    aria-hidden='true'
+                    className='absolute left-1 top-1 h-5 w-5 text-customPurple'
+                  />
                 </dt>
-
                 <dd>{feature.description}</dd>
               </div>
-            })}
+            ))}
           </dl>
-        </div> */}
+        </div>
       </div>
     </main>
   );
