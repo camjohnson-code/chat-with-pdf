@@ -81,11 +81,11 @@ const PricingPage = () => {
               >
                 <li className='flex gap-x-3'>
                   <CheckIcon className='h-6 w-5 flex-none text-customPurple' />{' '}
-                  2 Documents
+                  2 documents
                 </li>
                 <li className='flex gap-x-3'>
                   <CheckIcon className='h-6 w-5 flex-none text-customPurple' />{' '}
-                  2 Documents
+                  3 messages per document
                 </li>
                 <li className='flex gap-x-3'>
                   <CheckIcon className='h-6 w-5 flex-none text-customPurple' />{' '}
